@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TraiCa - Hệ thống theo dõi trại cá</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <i class="fas fa-fish"></i>
+            TraiCa
+        </div>
+        <button class="logout-btn">
+            <i class="fas fa-sign-out-alt"></i>
+            Logout
+        </button>   
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h1 class="title">Dashboard</h1>
+        <p class="subtitle">Welcome back, Quản lý hệ thống trại cá thông minh</p>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Left Panel - Báo Cáo Trại Cá -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-chart-line"></i>
+                    Báo Cáo Trại Cá
+                </div>
+                
+                <!-- Status Grid -->
+                <div class="status-grid">
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="status-label">Lượng thức ăn còn lại</div>
+                        <div class="status-value" id="food-percentage">50%</div>
+                        <div class="status-detail" id="food-status">Tốt</div>
+                    </div>
+                    
+                    <div class="status-item">
+                        <div class="status-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="status-label">Độ đục của nước</div>
+                        <div class="status-value" id="water-quality">An toàn</div>
+                        <div class="status-detail" id="water-status">Bình thường</div>
+                    </div>
+                </div>
+
+                <!-- Motion Detection -->
+                <div class="status-item" style="margin-bottom: 20px;">
+                    <div class="status-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <div class="status-label">Dấu hiệu bất thường</div>
+                    <div class="status-value" id="motion-status">Không có</div>
+                </div>
+
+            </div>
+
+            <!-- Right Panel - Bảng Điều Khiển -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-cogs"></i>
+                    Bảng Điều Khiển
+                </div>
+
+                <!-- System Status -->
+                <div class="system-status">
+                    <div class="status-indicator active">
+                        <div style="font-weight: bold; color: #4caf50;">Trạng thái hệ thống:</div>
+                        <div>Đang hoạt động</div>
+                    </div>
+                    <div class="status-indicator active">
+                        <div style="font-weight: bold; color: #4caf50;">Thông báo:</div>
+                        <div>Đang bật</div>
+                    </div>
+                </div>
+
+                <!-- Emergency Controls -->
+                <div class="emergency-controls">
+                    <button class="emergency-btn shutdown" onclick="emergencyShutdown()">
+                        <i class="fas fa-power-off"></i>
+                        Tắt hệ thống
+                    </button>
+                    <button class="emergency-btn alert" onclick="sendAlert()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Tắt thông báo
+                    </button>
+                </div>
+
+                <!-- Servo Control -->
+                <div class="control-panel">
+                    <div class="control-label">Điều khiển Servo:</div>
+                    <div class="control-buttons">
+                        <button class="btn btn-success" onclick="controlServo(1)">
+                            <i class="fas fa-play"></i>
+                            Bật Servo
+                        </button>
+                        <button class="btn btn-danger" onclick="controlServo(0)">
+                            <i class="fas fa-stop"></i>
+                            Tắt Servo
+                        </button>
+                    </div>
+                    <div id="servo-status" style="margin-top: 10px; font-weight: bold;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart and Controls -->
+        <div class="card">
+            <div class="card-title">
+                <i class="fas fa-chart-area"></i>
+                Biểu đồ nhiệt độ và độ đục theo thời gian
+            </div>
+            
+            <!-- Date Controls -->
+            <div class="control-panel">
+                <div class="control-group">
+                    <label class="control-label">Chọn khoảng thời gian:</label>
+                    <div class="control-buttons">
+                        <input type="date" id="from-date">
+                        <span style="margin: 0 10px; align-self: center;">đến</span>
+                        <input type="date" id="to-date">
+                        <button class="btn btn-primary" onclick="loadHistory()">
+                            <i class="fas fa-filter"></i>
+                            Lọc dữ liệu
+                        </button>
+                        <button class="btn btn-success" onclick="enableRealtime()">
+                            <i class="fas fa-broadcast-tower"></i>
+                            Thời gian thực
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Chart Container -->
+            <div class="chart-container">
+                <canvas id="myChart" width="600" height="300"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</html>
