@@ -25,6 +25,8 @@ jobs:
           npm ci
 
       - name: Test
+        env:
+          CI_FORCE_FAIL: "1"
         run: |
           cd server
           npm test
