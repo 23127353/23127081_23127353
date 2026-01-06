@@ -1,0 +1,39 @@
+services:
+  iot-water-monitor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: iot-water-monitor
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Ho_Chi_Minh
+    # Uncomment volumes below for development hot-reload
+    # volumes:
+    #   - ./server:/app
+    #   - ./public:/app/public
+    networks:
+      - iot-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://localhost:3000', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})",
+        ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  iot-network:
+    driver: bridge
