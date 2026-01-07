@@ -20,7 +20,7 @@ pipeline {
       }
     }
 
-    stage("2) Push to DockerHub") {
+    stage("3) Push to DockerHub") {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DH_USER', passwordVariable: 'DH_PASS')]) {
           sh """
@@ -32,7 +32,7 @@ pipeline {
       }
     }
 
-    stage("3) Deploy container (local laptop)") {
+    stage("4) Pull from DockerHub and Deploy container") {
       steps {
         sh """
           docker pull ${DOCKERHUB_REPO}:latest
